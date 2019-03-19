@@ -31,10 +31,9 @@ F=Score=2*Precision*Recall/(Precesion+Recall)
 **********************************************
 """
 
-class MetricsCalculator:
+class Calculator:
     
-    
-    def __init__(self, TP,TN,N,P):
+    def SetParametrs(self, TP,TN,N,P):
         self.TP=TP;
         self.TN=TN;
         self.P=P;
