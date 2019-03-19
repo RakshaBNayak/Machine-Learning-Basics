@@ -7,5 +7,7 @@ Created on Tue Mar 19 13:47:26 2019
 
 import MetricsCalculator as mc
 
-mc.Calculator.SetParametrs(5,6,10,20);
-print(mc.Calculator.Accuracy());
+
+calc=mc.Calculator;
+calc.SetParametrs(5,6,10,20);
+print(calc.Accuracy());
