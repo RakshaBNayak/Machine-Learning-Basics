@@ -31,7 +31,7 @@ F=Score=2*Precision*Recall/(Precesion+Recall)
 **********************************************
 """
 
-class Metrices:
+class MetricsCalculator:
     
     
     def __init__(self, TP,TN,N,P):
@@ -41,19 +41,19 @@ class Metrices:
         self.N=N;
         
     def Accuracy(self):
-        return self.TP+self.TN/(self.P+self.N);
+        return (self.TP+self.TN/(self.P+self.N));
     
     def ErrorRate(self):
-        return self.FP+self.FN/(self.P+self.N);
+        return (self.FP+self.FN/(self.P+self.N));
     
     def Sensitivity(self):
-        return self.TP/self.P;
+        return (self.TP/self.P);
     
     def Specificity(self):
-        return self.TN/self.N;
+        return (self.TN/self.N);
     
     def Precision(self):
-        return self.TP/(self.TP+self.FP);
+        return (self.TP/(self.TP+self.FP));
     
     def F_score(self):
          prec=self.Precision();
@@ -61,7 +61,14 @@ class Metrices:
          return (2*prec*recall/(prec+recall));
 
 def main():
-    Metrices()
+    calculator=MetricsCalculator(5,6,10,20);
+    print("Accuracy :",calculator.Accuracy());
+    print("ErrorRate :",calculator.ErrorRate());
+    print("Sensitivity :",calculator.Sensitivity());
+    print("Specificity :",calculator.Specificity());
+    print("Precision :",calculator.Precision());
+    print("F_score :",calculator.F_score());
+     
          
         
     
