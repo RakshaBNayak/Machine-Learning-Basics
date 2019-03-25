@@ -64,10 +64,10 @@ class SigmoidNode:
             
         print("a node computed")
             
-    def UpdateParameters(self,alpha):
+    def UpdateParameters(self,alpha,m):
         for i in range(len(self.inputs)):
-            self.w[i]=self.w[i]-((alpha)*(self.dw[i]))
-        self.b=self.b-((alpha)*(self.db))
+            self.w[i]=self.w[i]-((alpha)*(self.dw[i]/m))
+        self.b=self.b-((alpha)*(self.db/m))
     
     def get_output(self):
         return self.output
@@ -104,15 +104,15 @@ class DeepNet:
         dimensions=len(self.variables[0])
         
         
-        alpha=0.73
+        alpha=0.073
         hiddenlayer=[];
         
         for i in range(self.num_of_nodes_in_outputlayer):
             db_output_layer.append(0)
       
         """ assume that we have only one hidden layer with dimensions/2 nodes in it"""
-        self.num_of_nodes_in_layers.append(int(dimensions/2))
-        """self.num_of_nodes_in_layers.append(2)"""     
+        """self.num_of_nodes_in_layers.append(int(dimensions/2))"""
+        self.num_of_nodes_in_layers.append(3)   
        
         for m in range(len(self.variables)):
             """forward propogation"""
@@ -173,10 +173,10 @@ class DeepNet:
         
         for j in range(self.num_hidden_layers):
                 for i in range (self.num_of_nodes_in_layers[j]):
-                    self.all_hidden_layers[j][i].UpdateParameters(alpha)         
+                    self.all_hidden_layers[j][i].UpdateParameters(alpha,len(self.variables))         
         
         for i in range(len(self.output_layer)):
-            self.output_layer[i].UpdateParameters(alpha)
+            self.output_layer[i].UpdateParameters(alpha,len(self.variables))
                 
     def predict(self,test_data):
         output=[]
