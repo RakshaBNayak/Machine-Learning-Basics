@@ -40,7 +40,7 @@ class SigmoidNode:
         self.inputs=[]
         
         for i in range(num_of_variables):
-            self.w.append(random.uniform(0, 1))
+            self.w.append(random.uniform(-1, 1))
             self.dw.append(0)
             
     def update_dw_b(self,cost):
@@ -81,7 +81,7 @@ class DeepNet:
         self.num_hidden_layers=1
         self.optimizer="gradient_descent"
         self.activation_function="sigmoid"
-        self.variables=variables
+        self.variables=variables.T
         self.y=y
         self.all_hidden_layers=[]
         self.num_of_nodes_in_layers=[]
@@ -104,7 +104,7 @@ class DeepNet:
         dimensions=len(self.variables[0])
         
         
-        alpha=0.073
+        alpha=0.173
         hiddenlayer=[];
         
         for i in range(self.num_of_nodes_in_outputlayer):
@@ -112,7 +112,7 @@ class DeepNet:
       
         """ assume that we have only one hidden layer with dimensions/2 nodes in it"""
         """self.num_of_nodes_in_layers.append(int(dimensions/2))"""
-        self.num_of_nodes_in_layers.append(30)   
+        self.num_of_nodes_in_layers.append(5)   
        
         for m in range(len(self.variables)):
             """forward propogation"""
@@ -204,51 +204,26 @@ class DeepNet:
        
         
         
-
+    
+class Fetcher:
+    
+   
+            
+    def fetch_all_images(self, file_path):
         
-class ImageProcessor:
-    
-    def pad_list(self,list_of_numpy_array):
-        n = len(list_of_numpy_array)
-        m = max([len(x) for x in list_of_numpy_array])
-        A = np.zeros((n,m))
-        for i in range(n):
-           temp=np.pad(list_of_numpy_array[i],(0,m-len(list_of_numpy_array[i])),'constant', constant_values=0)
-           A[i]=np.asarray(temp)
-        return A
-    
-    def pad(self,list_of_numpy_array):
-        max_len = max([len(x) for x in list_of_numpy_array])
-        return [np.pad(x, (0, max_len - len(x)), 'constant') for x in list_of_numpy_array]
-
-    def fetch_all_jpg_files_as_numpy_array(self, file_path):
         data_path = os.path.join(file_path,'*.jpg')
         files = glob.glob(data_path)
-        data = []
-        for file in files:
-            img = cv2.imread(file)
-            nparray=np.asarray(img)
-            flat_image=self.flatten_single_image(nparray)
-            data.append(flat_image)
+        data = np.zeros(shape = (12288,len(files)))
+        for i in range(len(files)):
+            img = cv2.imread(files[i])
+            img=cv2.resize(img,(64,64))
+            img=np.array(img)
+            img=img.flatten()
+            data[:,i]=img
         return data
     
     
-    def fetch_with_resize(self,file_path,x,y):
-        data_path = os.path.join(file_path,'*.jpg')
-        files = glob.glob(data_path)
-        data = []
-        for file in files:
-            img = cv2.imread(file)
-            img=cv2.resize(img,(x,y))
-            nparray=np.asarray(img)
-            flat_image=self.flatten_single_image(nparray)
-            data.append(flat_image)
-        return data
-    
-     
-    
-    def flatten_single_image(self,image):
-       return image.flatten()
+   
     
     
 
@@ -261,34 +236,23 @@ def main():
     training_data_path_lobsters=cur_dir+"\\lobster"
     test_data_path_unknown=cur_dir+"\\test";
    
-    processor=ImageProcessor();
-    train_X1=processor.fetch_all_jpg_files_as_numpy_array(training_data_path_ants);""" pictures of ants--class 0"""
-    train_X2=processor.fetch_all_jpg_files_as_numpy_array(training_data_path_lobsters);""" pictures of lobsters--class 1"""
+    processor=Fetcher();
+    train_X1=processor.fetch_all_images(training_data_path_ants);""" pictures of ants--class 0"""
+    train_X2=processor.fetch_all_images(training_data_path_lobsters);""" pictures of lobsters--class 1"""
     
-    train_Y1=[];
-    train_Y2=[];
     
-    for image in train_X1:
-        train_Y1.append(0);"""class 0"""
-    for image in train_X2:
-        train_Y2.append(1);"""class 1"""
+    train_Y1 = np.zeros(shape = (len(train_X1),1))
+    train_Y2 = np.ones(shape = (len(train_X2),1))
+
         
-    train_Y=train_Y1+train_Y2;"""all class labels--> Y"""
-    train_X_temp=train_X1+train_X2;  """all training data--variables X"""
+    train_Y=np.concatenate((train_Y1, train_Y2), 0)
     
+    train_X=np.concatenate((train_X1, train_X2), 1)
     """********************************************
     our training set is ready now: 
     let us have a test data to find if the test image is ant or lobster."""
-    
-    
-    """pad zeros at the end"""
    
-    train_X=processor.pad_list(train_X_temp)
-    
-    dim1=int(math.sqrt(len(train_X[0])/3))
-    dim2=dim1
-    test_X=processor.fetch_with_resize(test_data_path_unknown,dim1,dim2)
-    test_X=test_X[0].tolist()     
+    test_X=processor.fetch_all_images(test_data_path_unknown)    
     """ set up the deep network with 1 hidden layer defined above"""
     
     deep_network=DeepNet(train_X,train_Y)
@@ -297,17 +261,12 @@ def main():
     output=deep_network.predict(test_X)
     
     if(output<0.5):
-        print ("ant")
+        print ("ant with probability",output)
     else:
-        print ("lobster")
+        print ("lobster with probability",output)
     
     print("The end")
     
 if __name__ == "__main__": 
     main()
     
-    
-
-    
-    
-
