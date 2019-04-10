@@ -35,27 +35,25 @@ class DeepNet:
     def __init__(self,variables,y):
         self.x=variables
         self.y=y
-        self.n1=5
-        self.n2=3
+        self.n1=len(self.x[0])
+        
         self.output_nodes=3
-        self.alpha=0.18
+        self.alpha=0.28
         self.m=len(self.x[0])
-        self.num_of_iterations=2000
+        self.num_of_iterations=200
         
         
     def train(self):
-        """Let there be two layers. 
-        One with n1 nodes and second with n2 nodes
+        """Let there be 1 hidden layers. 
+        
         3 nodes in output layer
-        All layers have softmax function
+        
         x is the input matrix
         y is the output matrix
         w1 is the weights at layer1
-        w2 is the weights at layer2
         b1 is the biases at layer1
-        b2 is the biases at layer2
-        w3 weight at output layer
-        b3 biases at output layer
+    
+               
         """
         
         self.initialize_weights2()
@@ -64,59 +62,61 @@ class DeepNet:
         for i in range(self.num_of_iterations):
             
             z1=np.dot(self.w1,self.x)+self.b1
-            a1=self.sigmoid(z1)
+            a1=self.tanh(z1)
             
             z2=np.dot(self.w2,a1)+self.b2
-            a2=self.sigmoid(z2)
+            a2=self.softmax(z2)
             
-            z3=np.dot(self.w3,a2)+self.b3
-            a3=self.sigmoid(z3)
             
-            curr_cost=np.abs(self.compute_cost(a3))
+            curr_cost=np.abs(self.compute_cost(a2))
             print("Cost: ",curr_cost)
             if(curr_cost<old_cost):
                 old_cost=curr_cost
             else:continue;
             
-            dz3 = a3 - self.y
-            dw3 =np.dot(dz3,a2.T) / self.m
-            db3 = dz3.sum() / self.m
-            self.w3=np.subtract(self.w3,np.dot(self.alpha,dw3))
-            self.b3=self.b3-np.dot(self.alpha,db3)
-            
-            dz2 = np.dot(self.w3.T,dz3) * self.sigmoid(z2)
-            dw2=np.dot(dz2,a1.T)/self.m
-            db2=dz2.sum()/self.m
+            dz2 = a2 - self.y
+            dw2 =np.dot(dz2,a1.T) / self.m
+            db2 = dz2.sum() / self.m
             self.w2=np.subtract(self.w2,np.dot(self.alpha,dw2))
             self.b2=self.b2-np.dot(self.alpha,db2)
             
-            dz1 = np.dot(self.w2.T,dz2) * self.sigmoid(z1)
+            dz1 = np.dot(self.w2.T,dz2) * self.tanhD(z1)
             dw1=np.dot(dz1,self.x.T)/self.m
             db1=dz1.sum()/self.m
             self.w1=np.subtract(self.w1,np.dot(self.alpha,dw1))
             self.b1=self.b1-np.dot(self.alpha,db1)
+            
+            
             
         print("Training done")
                 
     def predict(self,test_data):
         
         z1=np.dot(self.w1,test_data)+self.b1
-        a1=self.sigmoid(z1)
+        a1=self.tanh(z1)
         
         z2=np.dot(self.w2,a1)+self.b2
-        a2=self.sigmoid(z2)
+        output=self.softmax(z2)
         
-        z3=np.dot(self.w3,a2)+self.b3
-        output=self.sigmoid(z3)
         return output
-       
+    
+    def tanhD(self,x):
+        val=self.tanh(x)
+        return (1-(val*val))
+    
+    def tanh(self,x):
+        return (self.eX(-x)-self.eX(x))/(self.eX(-x)+self.eX(x))
+    
+    def eX(self,x):
+        return np.exp(x)
+    
     def softmax(self,x):
         nominator=np.exp(x-np.max(x))
         denominator=np.sum(np.exp(x-np.max(x)))
         return np.divide(nominator,denominator)  
  
     def sigmoid(self,x):
-        return 1/(1+np.exp(-x))
+        return 1/(1+self.eX(-x))
     
     def softmax2(self,x):
         f = np.exp(x - np.max(x))  # shift values
@@ -129,21 +129,21 @@ class DeepNet:
         
     def initialize_weights(self):
         self.w1=np.random.randn(self.n1,len(self.x))*0.5
-        self.w2=np.random.randn(self.n2,self.n1)*0.1
-        self.w3=np.random.randn(self.output_nodes,self.n2)*0.1
+        self.w2=np.random.randn(self.output_nodes,self.n1)*0.1
+        #self.w3=np.random.randn(self.output_nodes,self.n2)*0.1
         self.b1=np.random.randn(self.n1,1)*0.01
-        self.b2=np.random.randn(self.n2,1)*0.01
-        self.b3=np.random.randn(self.output_nodes,1)*0.01
+        self.b2=np.random.randn(self.output_nodes,1)*0.01
+        #self.b3=np.random.randn(self.output_nodes,1)*0.01
         
     def initialize_weights2(self):
         low1=-0.7
         high1=0.7
         self.w1=np.random.uniform(low=low1, high=high1, size=(self.n1,len(self.x) ))
-        self.w2=np.random.uniform(low=low1, high=high1, size=(self.n2,self.n1))
-        self.w3=np.random.uniform(low=low1, high=high1, size=(self.output_nodes,self.n2))
+        self.w2=np.random.uniform(low=low1, high=high1, size=(self.output_nodes,self.n1))
+        #self.w3=np.random.uniform(low=low1, high=high1, size=(self.output_nodes,self.n2))
         self.b1=np.random.uniform(low=0.2, high=0.6, size=(self.n1,1))
-        self.b2=np.random.uniform(low=0.2, high=0.6, size=(self.n2,1))
-        self.b3=np.random.uniform(low=0.2, high=0.6, size=(self.output_nodes,1))
+        self.b2=np.random.uniform(low=0.2, high=0.6, size=(self.output_nodes,1))
+        #self.b3=np.random.uniform(low=0.2, high=0.6, size=(self.output_nodes,1))
            
     
 class Fetcher:
@@ -199,7 +199,7 @@ def main():
     
     deep_network.train()
     output=deep_network.predict(test_X)
-    
+    print (output)
     index=np.argmax(output)
     prob=np.amax(output)
     if(index==0):
