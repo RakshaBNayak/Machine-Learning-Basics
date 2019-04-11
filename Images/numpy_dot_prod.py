@@ -15,9 +15,7 @@ Created on Tue Mar 19 15:43:32 2019
 Check if image is an ant or lobster.
 
 data: http://host.robots.ox.ac.uk/pascal/VOC/voc2007/
-kept in local disc as follows:
-C:\RAKSHA\deep learning\dataset\101_ObjectCategories\ant->class 0
-C:\RAKSHA\deep learning\dataset\101_ObjectCategories\lobster->class 1
+
 """
 import random
 import cv2
@@ -38,26 +36,16 @@ class DeepNet:
         self.n1=250
         
         self.output_nodes=3
-        self.alpha=0.102
+        self.alpha=0.1
         self.m=len(self.x[0])
         self.num_of_iterations=1000
         
         
     def train(self):
-        """Let there be 1 hidden layers. 
-        
-        3 nodes in output layer
-        
-        x is the input matrix
-        y is the output matrix
-        w1 is the weights at layer1
-        b1 is the biases at layer1
-    
-               
-        """
+      
         
         self.initialize_weights2()
-        old_cost=99999999
+        
         
         for i in range(self.num_of_iterations):
             
@@ -70,9 +58,7 @@ class DeepNet:
             
             curr_cost=self.compute_cost(a2)
             print("Cost: ",curr_cost)
-            """if(curr_cost<old_cost):
-                old_cost=curr_cost
-            else:continue;"""
+            
             
             dz2 = self.y-a2
             dw2 =np.dot(dz2,a1.T) / self.m
