@@ -40,7 +40,7 @@ class DeepNet:
         self.output_nodes=10
         self.alpha=0.2
         self.m=len(self.x[0])
-        self.num_of_iterations=100
+        self.num_of_iterations=2000
         
         
     def train(self):
@@ -142,7 +142,8 @@ class DeepNet:
 def main():
     """ all image data are in current directory . Find the current directory as follows"""
     mnist=tf.keras.datasets.mnist
-
+    index_test=2
+    output_values=10  
     (x_train,y_train),(x_test,y_test)=mnist.load_data()
     print (len(x_train))
     x_train=tf.keras.utils.normalize(x_train,axis=1)
@@ -153,11 +154,11 @@ def main():
     trainY=y_train.reshape(len(y_train),-1).T;
     testX=x_test.reshape(len(x_test),-1);
     test_data=np.zeros(shape=(len(trainX),1))
-    val=np.array(testX[0].T)
+    val=np.array(testX[index_test].T)
     test_data[:,0]=val
     
     numOfTrainingData=len(trainX[0])
-    y=np.zeros(shape=(10,numOfTrainingData))
+    y=np.zeros(shape=(output_values,numOfTrainingData))
     for i in range(numOfTrainingData-1):
         row_index=trainY[0,i]
         col_index=i
@@ -172,8 +173,8 @@ def main():
     print (output)
     index=np.argmax(output)
     prob=np.amax(output)
-    print(index)
-    print(prob)
+    print("Predicted output : ",index ," with probability ",prob)
+    print("actual output is : " ,y_test[index_test])
     
     
     print("The end")
