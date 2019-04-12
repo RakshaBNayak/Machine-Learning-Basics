@@ -66,7 +66,7 @@ class SigmoidNode:
             
     def UpdateParameters(self,alpha,m):
         for i in range(len(self.inputs)):
-            self.w[i]=self.w[i]-((alpha)*(self.dw[i]/m))
+            self.w[i]=self.w[i]+((alpha)*(self.dw[i]/m))
         self.b=self.b-((alpha)*(self.db/m))
     
     def get_output(self):
