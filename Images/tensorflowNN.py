@@ -24,7 +24,7 @@ model.add(tf.keras.layers.Flatten())
 model.add(tf.keras.layers.Dense(328,activation=tf.nn.sigmoid))
 model.add(tf.keras.layers.Dense(10,activation=tf.nn.softmax))
 model.compile(optimizer='adam',loss='categorical_crossentropy',metrics=['accuracy'])
-model.fit(x_train,y_train,epochs=200)
+model.fit(x_train,y_train,epochs=20)
 
 output=model.predict_classes(x_test)
 

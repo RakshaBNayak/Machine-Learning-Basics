@@ -1,0 +1,21 @@
+Artificial Intelligence to Redefine Business
+Artificial Intelligence as we all know is a simulation of human intelligence. AI is a broader term, deep diving into which we end up using several brotherly technological terminologies like cognitive science, machine learning, robotics, deep learning, image and natural language processing, voice and pattern recognition, statistical and predictive analysis and many more. AI! , there is a lot of trepidation when it comes to this topic. But NO, It’s going to be positive for the business world. With all hype of Artificial intelligence today, let’s get real about its business, economic implications and its potential on the economic growth rates in the near future.  
+
+Recently we have seen an explosion and quantum leaps with machine learning and prediction, the revolution is just the beginning but to what extent is it going to grow? Smart systems are built with highly qualified algorithms and fed with abundant training data such that the systems build abilities to predict the very next happening. More data the machine is trained with, more potency it has to predict just like training an innocent child. IOT has been growing at an enormous rate and helping out these intelligent systems in feeding data all about the individual’s behavior. Is the AI going to break our privacy? Is it watching each and every private behavior? Challenging techniques have been evolving to secure data while utilizing the learning and predicting benefits. 
+
+Smart systems create a unique pattern for individual buyer which is derived by his surfing and buying habits. Intelligent machine could easily predict if a woman is pregnant. This information can be used by the retailers in suggesting her baby care products; hospitals can suggest her better habits and birthing classes and why not using the clinical data, predict her delivery and get her ready even before she feels it. A machine learning model has the complete ability to predict right from the beginning of the journey to its end, keep giving right suggestions for an individual flying from Chicago to New York all about the journey and availability of the products of his interest at his destination. Predicting systems can guide a buyer all around the shopping mall and encourage him to buy all that even before he thinks that can be of his use. Law enforcement agencies can stop crime before it happens. AI has brought up seismic advances in health. In fact surveys say that health care industry is the most benefitted one with the boost of AI. Automotive industries have gained acceleration with driverless cars, drunken driver detection and what not. Well! No doubt that I read somewhere “Soon AI will be able to predict a heart attack hours, or even days before you feel it”.
+
+It’s a “data addiction era” .Big data analytics is about to become exponentially important since that’s going to be the future bread and butter of the business. Every business should think digital and deriving business values from big data have become extremely important in order to survive in this antagonistic and competitive world. A single click on an advertising banner could alert a manufacturer and recalculate his raw material requirements. Data analytics has enormous potential to transform decision making particularly in business world. Thanks to the integration of Toshiba Deep Learning and high performance storage from Dell EMC, this is really going to benefit multiple sectors due to the accelerated predictive modeling techniques and high speed storage of data.
+
+In this knowledge sharing article, we have seen that by relying on Artificial intelligence, retailers gain a deep understanding of consumers and their buying trends through sources such as social media, browsing habits and purchase history, can maximize customers’ spending , encourage customer loyalty and gain enormous values.
+
+
+
+
+
+
+
+
+
+
+
